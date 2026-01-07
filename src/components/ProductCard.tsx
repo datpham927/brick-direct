@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -6,9 +7,10 @@ import { Product } from "@/data/mockData";
 
 interface ProductCardProps {
   product: Product;
+  index?: number;
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
@@ -17,13 +19,27 @@ const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   return (
-    <div className="group relative bg-card rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 animate-fade-in">
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{
+        duration: 0.5,
+        delay: index * 0.1,
+        type: "spring",
+        stiffness: 100,
+      }}
+      whileHover={{ y: -8 }}
+      className="group relative bg-card rounded-xl overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-300"
+    >
       {/* Image */}
       <div className="relative aspect-square overflow-hidden bg-muted">
-        <img
+        <motion.img
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="w-full h-full object-cover"
+          whileHover={{ scale: 1.1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
         />
         
         {/* Availability badge */}
@@ -38,22 +54,35 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </Badge>
 
         {/* Quick actions overlay */}
-        <div className="absolute inset-0 bg-foreground/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
-          <Button asChild size="sm" variant="secondary" className="shadow-lg">
-            <Link to={`/product/${product.id}`}>
-              <Eye className="h-4 w-4 mr-1" />
-              Xem chi tiết
-            </Link>
-          </Button>
-        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileHover={{ opacity: 1 }}
+          className="absolute inset-0 bg-foreground/50 backdrop-blur-sm flex items-center justify-center gap-3"
+        >
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            whileHover={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.1 }}
+          >
+            <Button asChild size="sm" variant="secondary" className="shadow-lg">
+              <Link to={`/product/${product.id}`}>
+                <Eye className="h-4 w-4 mr-1" />
+                Xem chi tiết
+              </Link>
+            </Button>
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* Content */}
       <div className="p-4">
         {/* Size tag */}
-        <span className="inline-block px-2 py-1 text-xs font-medium bg-accent text-accent-foreground rounded mb-2">
+        <motion.span
+          whileHover={{ scale: 1.05 }}
+          className="inline-block px-2 py-1 text-xs font-medium bg-accent text-accent-foreground rounded mb-2"
+        >
           {product.size}
-        </span>
+        </motion.span>
 
         {/* Name */}
         <h3 className="font-semibold text-foreground line-clamp-2 mb-1 group-hover:text-primary transition-colors">
@@ -73,14 +102,16 @@ const ProductCard = ({ product }: ProductCardProps) => {
             </span>
             <span className="text-xs text-muted-foreground">/m²</span>
           </div>
-          <Button size="sm" variant="outline" asChild>
-            <a href="tel:0901234567">
-              <Phone className="h-3.5 w-3.5" />
-            </a>
-          </Button>
+          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+            <Button size="sm" variant="outline" asChild>
+              <a href="tel:0901234567">
+                <Phone className="h-3.5 w-3.5" />
+              </a>
+            </Button>
+          </motion.div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

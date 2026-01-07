@@ -1,17 +1,42 @@
+import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
     <footer className="bg-earth text-sand">
-      <div className="container py-12">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={containerVariants}
+        className="container py-12"
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About */}
-          <div>
+          <motion.div variants={itemVariants}>
             <div className="flex items-center gap-3 mb-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-xl">
+              <motion.div
+                whileHover={{ rotate: [0, -5, 5, 0] }}
+                className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-xl"
+              >
                 G
-              </div>
+              </motion.div>
               <div>
                 <h3 className="text-lg font-bold text-sand">Gạch Việt</h3>
                 <p className="text-xs text-sand/70">Chất lượng - Uy tín</p>
@@ -20,40 +45,42 @@ const Footer = () => {
             <p className="text-sm text-sand/80 leading-relaxed">
               Chuyên phân phối các loại gạch ốp lát cao cấp từ các nhà máy uy tín hàng đầu Việt Nam.
             </p>
-          </div>
+          </motion.div>
 
           {/* Quick links */}
-          <div>
+          <motion.div variants={itemVariants}>
             <h4 className="text-base font-semibold mb-4">Liên kết nhanh</h4>
             <ul className="space-y-2 text-sm">
-              <li>
-                <Link to="/" className="text-sand/80 hover:text-sand transition-colors">
-                  Trang chủ
-                </Link>
-              </li>
-              <li>
-                <Link to="/products" className="text-sand/80 hover:text-sand transition-colors">
-                  Sản phẩm
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="text-sand/80 hover:text-sand transition-colors">
-                  Liên hệ
-                </Link>
-              </li>
+              {[
+                { to: "/", label: "Trang chủ" },
+                { to: "/products", label: "Sản phẩm" },
+                { to: "/contact", label: "Liên hệ" },
+              ].map((link) => (
+                <li key={link.to}>
+                  <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                    <Link to={link.to} className="text-sand/80 hover:text-sand transition-colors">
+                      {link.label}
+                    </Link>
+                  </motion.div>
+                </li>
+              ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Contact */}
-          <div>
+          <motion.div variants={itemVariants}>
             <h4 className="text-base font-semibold mb-4">Liên hệ</h4>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
                 <Phone className="h-4 w-4 mt-0.5 text-primary" />
                 <div>
-                  <a href="tel:0901234567" className="text-sand hover:text-primary transition-colors">
+                  <motion.a
+                    href="tel:0901234567"
+                    whileHover={{ scale: 1.02 }}
+                    className="text-sand hover:text-primary transition-colors"
+                  >
                     0901 234 567
-                  </a>
+                  </motion.a>
                 </div>
               </li>
               <li className="flex items-start gap-2">
@@ -67,10 +94,10 @@ const Footer = () => {
                 <span className="text-sand/80">123 Nguyễn Văn Linh, Q.7, TP.HCM</span>
               </li>
             </ul>
-          </div>
+          </motion.div>
 
           {/* Hours */}
-          <div>
+          <motion.div variants={itemVariants}>
             <h4 className="text-base font-semibold mb-4">Giờ làm việc</h4>
             <ul className="space-y-2 text-sm text-sand/80">
               <li className="flex items-center gap-2">
@@ -82,15 +109,20 @@ const Footer = () => {
                 <span>Chủ nhật: 8:00 - 12:00</span>
               </li>
             </ul>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Bottom bar */}
       <div className="border-t border-sand/20">
-        <div className="container py-4 text-center text-sm text-sand/60">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="container py-4 text-center text-sm text-sand/60"
+        >
           © 2025 Gạch Việt. Tất cả quyền được bảo lưu.
-        </div>
+        </motion.div>
       </div>
     </footer>
   );
