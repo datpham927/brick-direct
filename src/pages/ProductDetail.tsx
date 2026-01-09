@@ -1,39 +1,85 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Phone, MapPin, Building2, Ruler, Tag, CheckCircle, XCircle } from "lucide-react";
+import {
+  ArrowLeft,
+  Phone,
+  MapPin,
+  Building2,
+  Ruler,
+  CheckCircle,
+  XCircle,
+} from "lucide-react";
+
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { products, factories } from "@/data/mockData";
 import ProductCard from "@/components/ProductCard";
+
+import { sanPhamPublicService } from "@/services/sanPhamPublic.service";
+import { SanPham } from "@/types";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const product = products.find((p) => p.id === id);
-  const factory = factories.find((f) => f.id === product?.factoryId);
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("vi-VN", {
+  const [product, setProduct] = useState<SanPham | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<SanPham[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const formatPrice = (price: number) =>
+    new Intl.NumberFormat("vi-VN", {
       style: "currency",
       currency: "VND",
     }).format(price);
-  };
 
-  // Related products (same factory, excluding current)
-  const relatedProducts = products
-    .filter((p) => p.id !== id && p.factoryId === product?.factoryId && p.visible)
-    .slice(0, 4);
+  /* ================= FETCH CHI TIẾT (+1 VIEW) ================= */
+  useEffect(() => {
+    if (!id) return;
 
-  if (!product) {
+    const fetchDetail = async () => {
+      try {
+        const res: any = await sanPhamPublicService.chiTiet(id);
+        setProduct(res.data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDetail();
+  }, [id]);
+
+  /* ================= FETCH SẢN PHẨM LIÊN QUAN ================= */
+  useEffect(() => {
+    if (!product) return;
+
+    const fetchRelated = async () => {
+      const res: any = await sanPhamPublicService.danhSach({
+        nhaMayId: product.nhaMayId._id,
+      });
+
+      const filtered = res.data
+        .filter((p: SanPham) => p._id !== product._id)
+        .slice(0, 4);
+
+      setRelatedProducts(filtered);
+    };
+
+    fetchRelated();
+  }, [product]);
+
+  /* ================= NOT FOUND ================= */
+  if (!loading && !product) {
     return (
       <div className="min-h-screen flex flex-col">
         <Header />
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-foreground mb-4">
-              Không tìm thấy sản phẩm
-            </h1>
+            <h1 className="text-2xl font-bold mb-4">Không tìm thấy sản phẩm</h1>
             <Button asChild>
               <Link to="/products">
                 <ArrowLeft className="mr-2 h-4 w-4" />
@@ -47,78 +93,84 @@ const ProductDetail = () => {
     );
   }
 
+  if (!product) return null;
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
 
       <main className="flex-1">
-        {/* Breadcrumb */}
+        {/* ================= BREADCRUMB ================= */}
         <div className="bg-muted py-4">
           <div className="container">
             <nav className="flex items-center gap-2 text-sm">
-              <Link to="/" className="text-muted-foreground hover:text-foreground">
+              <Link
+                to="/"
+                className="text-muted-foreground hover:text-foreground"
+              >
                 Trang chủ
               </Link>
-              <span className="text-muted-foreground">/</span>
-              <Link to="/products" className="text-muted-foreground hover:text-foreground">
+              <span>/</span>
+              <Link
+                to="/products"
+                className="text-muted-foreground hover:text-foreground"
+              >
                 Sản phẩm
               </Link>
-              <span className="text-muted-foreground">/</span>
-              <span className="text-foreground font-medium line-clamp-1">
-                {product.name}
+              <span>/</span>
+              <span className="font-medium line-clamp-1">
+                {product.tenSanPham}
               </span>
             </nav>
           </div>
         </div>
 
-        {/* Product detail */}
+        {/* ================= PRODUCT DETAIL ================= */}
         <section className="py-12">
           <div className="container">
             <div className="grid lg:grid-cols-2 gap-12">
               {/* Image */}
-              <div className="animate-fade-in">
+              <div>
                 <div className="relative aspect-square rounded-2xl overflow-hidden bg-muted">
                   <img
-                    src={product.image}
-                    alt={product.name}
+                    src={product.hinhAnh}
+                    alt={product.tenSanPham}
                     className="w-full h-full object-cover"
                   />
                   <Badge
                     className={`absolute top-4 left-4 ${
-                      product.available
-                        ? "bg-green-500 hover:bg-green-600"
-                        : "bg-stone hover:bg-stone"
+                      product.tinhTrangSanXuat === "CON_SAN_XUAT"
+                        ? "bg-green-500"
+                        : "bg-stone"
                     }`}
                   >
-                    {product.available ? "Còn hàng" : "Hết hàng"}
+                    {product.tinhTrangSanXuat === "CON_SAN_XUAT"
+                      ? "Còn sản xuất"
+                      : "Ngừng sản xuất"}
                   </Badge>
                 </div>
               </div>
 
               {/* Info */}
-              <div className="animate-slide-in">
-                <div className="mb-4">
-                  <span className="inline-block px-3 py-1 text-sm font-medium bg-accent text-accent-foreground rounded-lg">
-                    {product.size}
-                  </span>
-                </div>
+              <div>
+                <span className="inline-block px-3 py-1 mb-4 text-sm bg-accent rounded-lg">
+                  {product.kichThuoc}
+                </span>
 
-                <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-                  {product.name}
+                <h1 className="text-2xl md:text-3xl font-bold mb-4">
+                  {product.tenSanPham}
                 </h1>
 
-                <p className="text-muted-foreground leading-relaxed mb-6">
-                  {product.description}
-                </p>
+                <p className="text-muted-foreground mb-6">{product.moTa}</p>
 
                 {/* Price */}
                 <div className="bg-accent rounded-xl p-6 mb-6">
-                  <p className="text-sm text-muted-foreground mb-1">Giá bán</p>
+                  <p className="text-sm mb-1">Giá bán</p>
                   <div className="flex items-baseline gap-2">
                     <span className="text-3xl font-bold text-primary">
-                      {formatPrice(product.price)}
+                      {formatPrice(product.giaBanMacDinh)}
                     </span>
-                    <span className="text-muted-foreground">/m²</span>
+                    <span>/m²</span>
                   </div>
                 </div>
 
@@ -127,27 +179,33 @@ const ProductDetail = () => {
                   <div className="flex items-center gap-3">
                     <Ruler className="h-5 w-5 text-primary" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Kích thước</p>
-                      <p className="font-medium text-foreground">{product.size}</p>
+                      <p className="text-sm">Kích thước</p>
+                      <p className="font-medium">{product.kichThuoc}</p>
                     </div>
                   </div>
+
                   <div className="flex items-center gap-3">
                     <Building2 className="h-5 w-5 text-primary" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Nhà máy sản xuất</p>
-                      <p className="font-medium text-foreground">{product.factoryName}</p>
+                      <p className="text-sm">Nhà máy sản xuất</p>
+                      <p className="font-medium">
+                        {product.nhaMayId.tenNhaMay}
+                      </p>
                     </div>
                   </div>
+
                   <div className="flex items-center gap-3">
-                    {product.available ? (
+                    {product.tinhTrangSanXuat === "CON_SAN_XUAT" ? (
                       <CheckCircle className="h-5 w-5 text-green-500" />
                     ) : (
                       <XCircle className="h-5 w-5 text-stone" />
                     )}
                     <div>
-                      <p className="text-sm text-muted-foreground">Tình trạng</p>
-                      <p className="font-medium text-foreground">
-                        {product.available ? "Còn hàng - Sẵn sàng giao" : "Tạm hết hàng"}
+                      <p className="text-sm">Tình trạng</p>
+                      <p className="font-medium">
+                        {product.tinhTrangSanXuat === "CON_SAN_XUAT"
+                          ? "Còn sản xuất"
+                          : "Ngừng sản xuất"}
                       </p>
                     </div>
                   </div>
@@ -173,51 +231,26 @@ const ProductDetail = () => {
           </div>
         </section>
 
-        {/* Factory info */}
-        {factory && (
-          <section className="py-12 bg-muted">
-            <div className="container">
-              <h2 className="text-xl font-bold text-foreground mb-6">
-                Thông tin nhà máy
-              </h2>
-              <div className="bg-card rounded-xl p-6 shadow-card">
-                <div className="flex flex-col md:flex-row md:items-center gap-6">
-                  <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Building2 className="h-8 w-8 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-foreground mb-2">
-                      {factory.name}
-                    </h3>
-                    <div className="flex flex-col sm:flex-row gap-4 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4 text-primary" />
-                        <span>{factory.address}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Phone className="h-4 w-4 text-primary" />
-                        <a href={`tel:${factory.phone.replace(/\s/g, "")}`} className="hover:text-primary">
-                          {factory.phone}
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* Related products */}
+        {/* ================= RELATED PRODUCTS ================= */}
         {relatedProducts.length > 0 && (
           <section className="py-12">
             <div className="container">
-              <h2 className="text-xl font-bold text-foreground mb-6">
-                Sản phẩm cùng nhà máy
-              </h2>
+              <h2 className="text-xl font-bold mb-6">Sản phẩm cùng nhà máy</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {relatedProducts.map((p) => (
-                  <ProductCard key={p.id} product={p} />
+                  <ProductCard
+                    key={p._id}
+                    product={{
+                      id: p._id,
+                      name: p.tenSanPham,
+                      image: p.hinhAnh,
+                      size: p.kichThuoc,
+                      price: p.giaBanMacDinh,
+                      factoryName: p.nhaMayId.tenNhaMay,
+                      views: p.luotXem,
+                      available: p.tinhTrangSanXuat === "CON_SAN_XUAT",
+                    }}
+                  />
                 ))}
               </div>
             </div>

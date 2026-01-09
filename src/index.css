@@ -1,74 +1,73 @@
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap');
-
 @layer base {
   :root {
-    /* Modern Light Theme - Clean & Fresh */
-    --background: 220 20% 98%;
-    --foreground: 222 47% 11%;
+    /* Warm terracotta & earth tones for brick products */
+    --background: 30 25% 98%;
+    --foreground: 20 15% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 20 15% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 20 15% 15%;
 
-    /* Modern violet-blue primary */
-    --primary: 250 89% 60%;
+    /* Terracotta primary */
+    --primary: 15 65% 50%;
     --primary-foreground: 0 0% 100%;
 
-    /* Soft blue secondary */
-    --secondary: 214 32% 91%;
-    --secondary-foreground: 222 47% 11%;
+    /* Sand secondary */
+    --secondary: 35 30% 92%;
+    --secondary-foreground: 20 15% 25%;
 
-    /* Cool gray muted */
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 9% 46%;
+    /* Stone muted */
+    --muted: 30 15% 94%;
+    --muted-foreground: 20 10% 45%;
 
-    /* Soft violet accent */
-    --accent: 252 94% 97%;
-    --accent-foreground: 250 89% 50%;
+    /* Warm accent */
+    --accent: 25 45% 88%;
+    --accent-foreground: 20 15% 20%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 250 89% 60%;
+    --border: 30 20% 88%;
+    --input: 30 20% 88%;
+    --ring: 15 65% 50%;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
 
-    /* Modern color palette */
-    --violet: 250 89% 60%;
-    --violet-light: 252 94% 75%;
-    --violet-dark: 250 89% 45%;
-    --indigo: 238 84% 67%;
-    --cyan: 192 91% 50%;
-    --cyan-light: 185 96% 70%;
-    --teal: 168 84% 44%;
-    --rose: 350 89% 60%;
-    --amber: 38 92% 50%;
-    --emerald: 160 84% 39%;
-    --slate: 222 47% 11%;
-    
-    /* Premium gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(250 89% 60%) 0%, hsl(238 84% 67%) 35%, hsl(192 91% 50%) 100%);
-    --gradient-premium: linear-gradient(135deg, hsl(250 89% 60%) 0%, hsl(350 89% 60%) 100%);
-    --gradient-ocean: linear-gradient(135deg, hsl(192 91% 50%) 0%, hsl(250 89% 60%) 100%);
-    --gradient-sunset: linear-gradient(135deg, hsl(350 89% 60%) 0%, hsl(38 92% 50%) 100%);
-    --gradient-dark: linear-gradient(135deg, hsl(222 47% 8%) 0%, hsl(250 30% 12%) 50%, hsl(222 47% 8%) 100%);
-    --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
-    --gradient-mesh: radial-gradient(at 40% 20%, hsl(250 89% 60% / 0.3) 0px, transparent 50%), radial-gradient(at 80% 0%, hsl(192 91% 50% / 0.3) 0px, transparent 50%), radial-gradient(at 0% 50%, hsl(350 89% 60% / 0.2) 0px, transparent 50%);
-    
-    /* Premium shadows */
-    --shadow-glow: 0 0 40px hsl(250 89% 60% / 0.4);
-    --shadow-glow-cyan: 0 0 40px hsl(192 91% 50% / 0.4);
-    --shadow-premium: 0 25px 50px -12px hsl(222 47% 11% / 0.25);
-    --shadow-card: 0 4px 24px hsl(222 47% 11% / 0.06);
-    --shadow-card-hover: 0 20px 40px hsl(222 47% 11% / 0.12);
+    /* Custom colors for brick theme */
+    --terracotta: 15 65% 50%;
+    --terracotta-light: 15 55% 65%;
+    --terracotta-dark: 15 70% 40%;
+    --sand: 35 40% 85%;
+    --stone: 30 10% 55%;
+    --earth: 25 35% 30%;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(
+      135deg,
+      hsl(15 65% 50%) 0%,
+      hsl(25 55% 45%) 100%
+    );
+    --gradient-card: linear-gradient(
+      180deg,
+      hsl(0 0% 100%) 0%,
+      hsl(30 25% 98%) 100%
+    );
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 hsl(20 15% 15% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(20 15% 15% / 0.1),
+      0 2px 4px -2px hsl(20 15% 15% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(20 15% 15% / 0.1),
+      0 4px 6px -4px hsl(20 15% 15% / 0.1);
+    --shadow-xl: 0 20px 25px -5px hsl(20 15% 15% / 0.1),
+      0 8px 10px -6px hsl(20 15% 15% / 0.1);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -77,46 +76,46 @@
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 250 89% 60%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 222 47% 6%;
-    --foreground: 210 40% 98%;
+    --background: 20 15% 10%;
+    --foreground: 30 20% 95%;
 
-    --card: 222 47% 9%;
-    --card-foreground: 210 40% 98%;
+    --card: 20 15% 12%;
+    --card-foreground: 30 20% 95%;
 
-    --popover: 222 47% 9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 20 15% 12%;
+    --popover-foreground: 30 20% 95%;
 
-    --primary: 250 89% 65%;
+    --primary: 15 65% 55%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 222 30% 15%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 20 15% 18%;
+    --secondary-foreground: 30 20% 90%;
 
-    --muted: 222 30% 15%;
-    --muted-foreground: 217 19% 60%;
+    --muted: 20 15% 18%;
+    --muted-foreground: 30 15% 60%;
 
-    --accent: 250 30% 20%;
-    --accent-foreground: 250 89% 75%;
+    --accent: 20 20% 22%;
+    --accent-foreground: 30 20% 95%;
 
     --destructive: 0 62% 30%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 222 30% 18%;
-    --input: 222 30% 18%;
-    --ring: 250 89% 65%;
+    --border: 20 15% 20%;
+    --input: 20 15% 20%;
+    --ring: 15 65% 55%;
 
-    --sidebar-background: 222 47% 8%;
+    --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 250 89% 65%;
+    --sidebar-primary: 224.3 76.3% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 222 30% 15%;
+    --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 222 30% 18%;
-    --sidebar-ring: 250 89% 65%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -127,7 +126,7 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Be Vietnam Pro', sans-serif;
+    font-family: "Be Vietnam Pro", sans-serif;
   }
 }
 
@@ -135,143 +134,40 @@
   .gradient-hero {
     background: var(--gradient-hero);
   }
-  
-  .gradient-premium {
-    background: var(--gradient-premium);
+
+  .gradient-card {
+    background: var(--gradient-card);
   }
-  
-  .gradient-ocean {
-    background: var(--gradient-ocean);
-  }
-  
-  .gradient-sunset {
-    background: var(--gradient-sunset);
-  }
-  
-  .gradient-dark {
-    background: var(--gradient-dark);
-  }
-  
-  .gradient-glass {
-    background: var(--gradient-glass);
-  }
-  
-  .gradient-mesh {
-    background: var(--gradient-mesh);
-  }
-  
-  .shadow-glow {
-    box-shadow: var(--shadow-glow);
-  }
-  
-  .shadow-glow-cyan {
-    box-shadow: var(--shadow-glow-cyan);
-  }
-  
-  .shadow-premium {
-    box-shadow: var(--shadow-premium);
-  }
-  
+
   .shadow-card {
-    box-shadow: var(--shadow-card);
+    box-shadow: var(--shadow-md);
   }
-  
+
   .shadow-card-hover {
-    box-shadow: var(--shadow-card-hover);
+    box-shadow: var(--shadow-xl);
   }
-  
+
   .text-balance {
     text-wrap: balance;
   }
-  
-  .glass {
-    @apply backdrop-blur-xl bg-white/10 border border-white/20;
-  }
-  
-  .glass-dark {
-    @apply backdrop-blur-xl bg-black/30 border border-white/10;
-  }
-  
-  .glass-card {
-    @apply backdrop-blur-xl bg-white/80 border border-white/60 shadow-card;
-  }
-  
-  .text-gradient {
-    background: linear-gradient(135deg, hsl(250 89% 60%) 0%, hsl(238 84% 67%) 50%, hsl(192 91% 50%) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .text-gradient-premium {
-    background: linear-gradient(135deg, hsl(250 89% 65%) 0%, hsl(350 89% 60%) 50%, hsl(38 92% 50%) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-  
-  .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
-  }
-  
-  .animate-shimmer {
-    animation: shimmer 2s linear infinite;
-    background-size: 200% 100%;
-  }
-  
-  .animate-gradient {
-    animation: gradient-shift 8s ease infinite;
-    background-size: 300% 300%;
-  }
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px hsl(250 89% 60% / 0.3); }
-  50% { box-shadow: 0 0 40px hsl(250 89% 60% / 0.6); }
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-@keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-/* Premium scrollbar */
+/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
   background: hsl(var(--muted));
-  border-radius: 5px;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, hsl(var(--primary)) 0%, hsl(var(--indigo)) 100%);
-  border-radius: 5px;
-  border: 2px solid hsl(var(--muted));
+  background: hsl(var(--stone));
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, hsl(var(--indigo)) 0%, hsl(var(--primary)) 100%);
-}
-
-/* Selection */
-::selection {
-  background: hsl(var(--primary) / 0.3);
-  color: hsl(var(--foreground));
+  background: hsl(var(--terracotta));
 }
