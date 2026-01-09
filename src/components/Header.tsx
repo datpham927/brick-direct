@@ -36,64 +36,64 @@ const Header = () => {
           : "bg-transparent"
       }`}
     >
-      {/* Top bar with gradient */}
-      <div className="bg-gradient-to-r from-earth via-earth/95 to-earth">
-        <div className="container flex h-11 items-center justify-between text-sm">
-          <div className="flex items-center gap-6">
+      {/* Top bar */}
+      <div className="gradient-dark hidden md:block">
+        <div className="container flex h-10 items-center justify-between text-sm">
+          <div className="flex items-center gap-4 lg:gap-6">
             <motion.a
               href="tel:0901234567"
               whileHover={{ scale: 1.05 }}
-              className="flex items-center gap-2 text-primary-foreground/90 hover:text-primary transition-colors"
+              className="flex items-center gap-2 text-white/90 hover:text-cyan transition-colors"
             >
-              <div className="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center">
-                <Phone className="h-3.5 w-3.5" />
+              <div className="w-6 h-6 rounded-full bg-cyan/20 flex items-center justify-center">
+                <Phone className="h-3 w-3 text-cyan" />
               </div>
               <span className="font-medium">0901 234 567</span>
             </motion.a>
-            <span className="hidden sm:flex items-center gap-2 text-primary-foreground/70">
+            <span className="hidden lg:flex items-center gap-2 text-white/70">
               <MapPin className="h-3.5 w-3.5" />
-              <span>123 Nguyễn Văn Linh, Q.7, TP.HCM</span>
+              <span className="text-xs lg:text-sm">123 Nguyễn Văn Linh, Q.7, TP.HCM</span>
             </span>
           </div>
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5 }}
-            className="hidden md:flex items-center gap-2 text-primary-foreground/80"
+            className="flex items-center gap-2 text-white/80"
           >
-            <Sparkles className="h-4 w-4 text-primary" />
-            <span className="font-medium">Giao hàng tận nơi - Giá tốt nhất thị trường</span>
+            <Sparkles className="h-3.5 w-3.5 text-cyan" />
+            <span className="font-medium text-xs lg:text-sm">Giao hàng tận nơi - Giá tốt nhất</span>
           </motion.div>
         </div>
       </div>
 
       {/* Main nav */}
-      <div className="container flex h-20 items-center justify-between">
-        <Link to="/" className="flex items-center gap-3 group">
+      <div className="container flex h-16 md:h-20 items-center justify-between">
+        <Link to="/" className="flex items-center gap-2 md:gap-3 group">
           <motion.div
             whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
             transition={{ duration: 0.5 }}
             className="relative"
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-terracotta text-primary-foreground font-bold text-xl shadow-glow">
+            <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-xl md:rounded-2xl gradient-hero text-white font-bold text-lg md:text-xl shadow-glow">
               G
             </div>
             <motion.div
-              className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-primary to-terracotta opacity-30 blur-sm -z-10"
+              className="absolute -inset-1 rounded-xl md:rounded-2xl gradient-hero opacity-30 blur-sm -z-10"
               animate={{ scale: [1, 1.1, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
           </motion.div>
           <div>
-            <h1 className="text-xl font-bold text-foreground leading-tight group-hover:text-primary transition-colors">
+            <h1 className="text-lg md:text-xl font-bold text-foreground leading-tight group-hover:text-primary transition-colors">
               Gạch Việt
             </h1>
-            <p className="text-xs text-muted-foreground font-medium">Premium Quality</p>
+            <p className="text-[10px] md:text-xs text-muted-foreground font-medium">Premium Quality</p>
           </div>
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-2">
+        <nav className="hidden md:flex items-center gap-1 lg:gap-2">
           {navLinks.map((link, index) => (
             <motion.div
               key={link.href}
@@ -103,16 +103,16 @@ const Header = () => {
             >
               <Link
                 to={link.href}
-                className={`relative px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                className={`relative px-4 lg:px-5 py-2 lg:py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
                   isActive(link.href)
-                    ? "text-primary-foreground"
+                    ? "text-white"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {isActive(link.href) && (
                   <motion.div
                     layoutId="activeNav"
-                    className="absolute inset-0 bg-gradient-to-r from-primary to-terracotta rounded-xl shadow-glow"
+                    className="absolute inset-0 gradient-hero rounded-xl shadow-glow"
                     transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
                   />
                 )}
@@ -130,11 +130,11 @@ const Header = () => {
           >
             <Button 
               asChild 
-              className="h-12 px-6 rounded-xl shadow-glow bg-gradient-to-r from-primary to-terracotta hover:from-terracotta hover:to-primary transition-all duration-500"
+              className="h-10 lg:h-12 px-4 lg:px-6 rounded-xl shadow-glow gradient-ocean hover:opacity-90 transition-all duration-500"
             >
               <a href="tel:0901234567">
                 <Phone className="h-4 w-4 mr-2" />
-                <span className="font-semibold">Gọi ngay</span>
+                <span className="font-semibold text-sm">Gọi ngay</span>
               </a>
             </Button>
           </motion.div>
@@ -144,14 +144,14 @@ const Header = () => {
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden h-12 w-12 rounded-xl"
+          className="md:hidden h-10 w-10 rounded-xl"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <motion.div
             animate={{ rotate: isMenuOpen ? 180 : 0 }}
             transition={{ duration: 0.3 }}
           >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </motion.div>
         </Button>
       </div>
@@ -166,7 +166,7 @@ const Header = () => {
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="md:hidden overflow-hidden border-t border-border bg-card"
           >
-            <nav className="container py-6 flex flex-col gap-2">
+            <nav className="container py-4 flex flex-col gap-2">
               {navLinks.map((link, index) => (
                 <motion.div
                   key={link.href}
@@ -178,9 +178,9 @@ const Header = () => {
                   <Link
                     to={link.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`px-5 py-4 rounded-2xl text-base font-semibold transition-all block ${
+                    className={`px-4 py-3 rounded-xl text-base font-semibold transition-all block ${
                       isActive(link.href)
-                        ? "bg-gradient-to-r from-primary to-terracotta text-primary-foreground shadow-glow"
+                        ? "gradient-hero text-white shadow-glow"
                         : "text-foreground hover:bg-accent"
                     }`}
                   >
@@ -193,11 +193,11 @@ const Header = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -30 }}
                 transition={{ delay: 0.3 }}
-                className="pt-4"
+                className="pt-2"
               >
                 <Button 
                   asChild 
-                  className="w-full h-14 rounded-2xl text-base shadow-glow bg-gradient-to-r from-primary to-terracotta"
+                  className="w-full h-12 rounded-xl text-base shadow-glow gradient-ocean"
                 >
                   <a href="tel:0901234567">
                     <Phone className="h-5 w-5 mr-2" />
